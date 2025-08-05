@@ -98,9 +98,8 @@ const Login = () => {
   return (
     <section className=" bg-[#1E2A78] dark:bg-[#151932] min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center justify-center px-6 mx-auto w-full max-w-md">
-        <div className="flex items-center mb-6 text-2xl font-semibold text-white">
-          Welcome to my project
-        </div>
+        <div className="loader">FreshCart</div>
+
         <div className="w-full bg-gray-900 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">

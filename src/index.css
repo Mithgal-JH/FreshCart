@@ -2,3 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .loader {
+    @apply text-[40px] font-bold uppercase text-transparent w-fit mb-6;
+    font-family: system-ui, sans-serif;
+    -webkit-text-stroke: 1px #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: l10-0 0.8s linear alternate forwards, l10-1 4s linear forwards;
+    background:
+      radial-gradient(0.71em at 50% 1em, #fff 99%, transparent 101%) calc(50% - 1em) 1em / 2em 200% repeat-x text,
+      radial-gradient(0.71em at 50% -0.5em, transparent 99%, #fff 101%) 50% 1.5em / 2em 200% repeat-x text;
+  }
+
+  @keyframes l10-0 {
+    to {
+      background-position-x: 50%, calc(50% + 1em);
+    }
+  }
+
+  @keyframes l10-1 {
+    to {
+      background-position-y: -0.5em, 0;
+    }
+  }
+}

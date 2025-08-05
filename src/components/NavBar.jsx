@@ -69,19 +69,67 @@ const NavBar = () => {
               <div className="flex space-x-4">
                 <a
                   href="/"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                            before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
                 >
                   Home
                 </a>
                 <a
                   href="/cart"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                          before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
                 >
                   Cart
                 </a>
                 <a
                   href="/about"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                            before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
                 >
                   About
                 </a>
@@ -131,19 +179,67 @@ const NavBar = () => {
           <div className="space-y-1 px-2 pt-2 pb-3">
             <a
               href="/"
-              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                            before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
             >
               Home
             </a>
             <a
               href="/cart"
-              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                            before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
             >
               Cart
             </a>
             <a
               href="/about"
-              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
+                            before:bg-teal-600 
+
+                            hover:rounded-b-none 
+                            before:absolute 
+                            before:-bottom-0 
+                            before:-left-0  
+                            before:block 
+                            before:h-[2px] 
+                            before:w-full 
+                            before:origin-bottom-right 
+                            before:scale-x-0 
+                            before:transition 
+                            before:duration-300 
+                            before:ease-in-out 
+                            hover:before:origin-bottom-left 
+                            hover:before:scale-x-100"
             >
               About
             </a>
