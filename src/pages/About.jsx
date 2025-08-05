@@ -13,10 +13,10 @@ const About = () => {
       <div className="bg-[#2C3E91] rounded-xl shadow-lg py-8 px-6 max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">About This Project</h1>
         <p className="mb-4 leading-relaxed">
-          This project was built as a personal learning journey to understand
-          and practice React. I developed it to explore the fundamentals of
-          component-based architecture, routing, state management, and modern UI
-          design with Tailwind CSS.
+          This project was built as a hands-on learning journey to master modern
+          web development technologies. I developed FreshCart to gain practical
+          experience with the fundamentals of React for building dynamic user
+          interfaces, and Firebase for handling backend services.
         </p>
 
         <section className="mb-6">
@@ -31,18 +31,17 @@ const About = () => {
         <section className="mb-6">
           <h2 className="font-semibold mb-2">Tools & Technologies used:</h2>
           <ul className="list-disc list-inside ml-5 space-y-1">
-            <li>React (frontend & routing)</li>
-            <li>Tailwind CSS (styling)</li>
-            <li>HTML (structure and base)</li>
-            <li>
-              Firebase (planned) – backend services like auth and database
-            </li>
+            <li>React (for frontend and routing)</li>
+            <li>Tailwind CSS (for styling and design)</li>
+            <li>Firebase (for authentication and database services)</li>
+            <li>HTML (for structure and base)</li>
           </ul>
         </section>
 
         <p className="mb-6">
-          This project is not a commercial app but a practical learning tool to
-          deepen my understanding of modern web development.
+          This project serves as a practical demonstration of my skills in
+          modern web development and a testament to my passion for learning and
+          building.
         </p>
 
         <button
