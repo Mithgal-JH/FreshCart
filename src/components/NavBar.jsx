@@ -8,21 +8,22 @@ const NavBar = () => {
   const { totalCost } = useContext(cartContext);
 
   const [isOpen, setIsOpen] = useState(false);
-
-  const handlUserClick = () => {
-    setIsOpen(!isOpen);
-  };
-
   const navigate = useNavigate();
+
   const signout = () => {
     userContext.setUserIn(false);
     localStorage.clear();
     navigate("/login");
   };
+
   const [userData] = useState(JSON.parse(localStorage.getItem("user")));
 
+  const handlUserClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="fixed top-0 z-50 w-screen h-20 bg-gray-900">
+    <div className="fixed top-0 z-50 w-screen bg-gray-900">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -30,7 +31,7 @@ const NavBar = () => {
               type="button"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
               onClick={handlUserClick}
             >
               <span className="sr-only">Open main menu</span>
@@ -39,7 +40,6 @@ const NavBar = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                aria-hidden="true"
                 className={`${isOpen ? "hidden" : "block"} w-6 h-6`}
               >
                 <path
@@ -53,7 +53,6 @@ const NavBar = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                aria-hidden="true"
                 className={`${isOpen ? "block" : "hidden"} w-6 h-6`}
               >
                 <path
@@ -70,7 +69,6 @@ const NavBar = () => {
               <div className="flex space-x-4">
                 <a
                   href="/"
-                  aria-current="page"
                   className="rounded-md px-3 py-2 text-sm font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
                 >
                   Home
@@ -79,7 +77,7 @@ const NavBar = () => {
                   href="/cart"
                   className="rounded-md px-3 py-2 text-sm font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
                 >
-                  Carts
+                  Cart
                 </a>
                 <a
                   href="/about"
@@ -100,25 +98,22 @@ const NavBar = () => {
             ) : null}
 
             <button
-              id="user-menu-button"
               type="button"
               aria-expanded={isOpen}
               aria-haspopup="true"
-              className="relative flex rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
+              className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
               onClick={handlUserClick}
             >
               <span className="sr-only">Open user menu</span>
-              {
-                <img
-                  src={
-                    userData?.photoURL?.trim() && userData.photoURL !== ""
-                      ? userData.photoURL
-                      : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  }
-                  alt="User avatar"
-                  className="w-8 h-8 rounded-full"
-                />
-              }
+              <img
+                src={
+                  userData?.photoURL?.trim()
+                    ? userData.photoURL
+                    : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                }
+                alt="User avatar"
+                className="w-8 h-8 rounded-full"
+              />
             </button>
 
             <button
@@ -130,6 +125,31 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+
+      {isOpen && (
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="space-y-1 px-2 pt-2 pb-3">
+            <a
+              href="/"
+              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+            >
+              Home
+            </a>
+            <a
+              href="/cart"
+              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+            >
+              Cart
+            </a>
+            <a
+              href="/about"
+              className="block rounded-md px-3 py-2 text-base font-medium text-blue-300 hover:bg-blue-700 hover:text-white"
+            >
+              About
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
