@@ -84,9 +84,11 @@ const Login = () => {
         })
       );
 
-      toast.success("Logged in with Google!");
       setUserIn(true);
       localStorage.setItem("userIn", true);
+
+      toast.success(`Welcome , ${user.displayName}❤️ `);
+
       navigate("/");
     } catch (error) {
       toast.error("Google login failed: " + error.message);

@@ -14,8 +14,7 @@ function App() {
   //provider
   const { userIn } = useContext(UserContext);
 
-  //user login
-  //****************************//
+  //************user login****************//
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,14 +24,13 @@ function App() {
       if (!location.pathname.includes("/signin")) navigate("/login");
     }
   }, [userIn]);
+
   const [userData] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  useEffect(() => {
-    if (userIn) toast.success(`Welcome , ${userData.name}❤️ `);
-  }, [userIn]);
-  //***************************//
+
+  //**************   *************//
 
   return (
     <div className="App">
