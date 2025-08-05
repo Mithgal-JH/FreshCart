@@ -9,14 +9,14 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDd-9tdNy1lcB1XuVoslXwHBRBrwgfZQtU",
-  authDomain: "freshcart-eb5fc.firebaseapp.com",
-  projectId: "freshcart-eb5fc",
-  storageBucket: "freshcart-eb5fc.firebasestorage.app",
-  messagingSenderId: "1086865219616",
-  appId: "1:1086865219616:web:fe69e960fdc381f4e89c45",
-  measurementId: "G-HBJZJ8Q4D5",
-  databaseURL: "https://freshcart-eb5fc-default-rtdb.firebaseio.com/",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
 };
 
 // Initialize and export Firebase
