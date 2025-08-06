@@ -1,87 +1,72 @@
-import React, { createContext, useEffect, useState } from "react";
-import { auth, firestore } from "../../Firebase-config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserProvider";
+import { firestore } from "../../Firebase-config";
+import {
+  doc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
+import { toast } from "react-toastify";
+
 export const cartContext = createContext(null);
+
 const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    try {
-      const stored = localStorage.getItem("cart");
-      const parsed = JSON.parse(stored);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  });
+  const { userIn, userData } = useContext(UserContext);
 
-  const [totalCost, setTotalCost] = useState(() => {
-    try {
-      const storedCost = localStorage.getItem("totalCost");
-      return storedCost ? JSON.parse(storedCost) : 0;
-    } catch {
-      return 0;
-    }
-  });
-
-  const user = auth.currentUser;
+  const [cart, setCart] = useState(null);
+  const [totalCost, setTotalCost] = useState(0);
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
-    if (user) {
-      const fetchCart = async () => {
-        const userCartRef = doc(firestore, "carts", user.uid);
-        const docSnap = await getDoc(userCartRef);
+    let unsubscribe = () => {};
+
+    if (userIn && userData?.email) {
+      const cartRef = doc(firestore, "carts", userData.email);
+
+      unsubscribe = onSnapshot(cartRef, (docSnap) => {
         if (docSnap.exists()) {
-          const data = docSnap.data();
+          const cartData = docSnap.data().items || [];
+          setCart(cartData);
 
-          const storedCart = localStorage.getItem("cart");
-          if (!storedCart || storedCart === "[]" || cart.length === 0) {
-            setCart(data.cart || []);
-            setTotalCost(data.totalCost || 0);
-            localStorage.setItem("cart", JSON.stringify(data.cart || []));
-            localStorage.setItem(
-              "totalCost",
-              JSON.stringify(data.totalCost || 0)
-            );
-          }
+          const total = cartData.reduce((sum, item) => sum + item.price, 0);
+          setTotalCost(total.toFixed(2));
+          setCartItemCount(cartData.length);
+        } else {
+          setDoc(cartRef, { items: [] });
+          setCart([]);
+          setTotalCost(0);
+          setCartItemCount(0);
         }
-      };
-      fetchCart();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("totalCost", JSON.stringify(totalCost));
-  }, [cart, totalCost]);
-
-  useEffect(() => {
-    if (user) {
-      const userCartRef = doc(firestore, "carts", user.uid);
-      setDoc(userCartRef, { cart, totalCost }).catch((err) => {
-        console.error("Failed to update Firestore cart:", err);
       });
+    } else {
+      setCart([]);
+      setTotalCost(0);
+      setCartItemCount(0);
     }
-  }, [cart, totalCost, user]);
 
-  const addToCart = (product) => {
-    setCart((prev) => [...prev, product]);
-    setTotalCost((prev) => prev + product.price);
+    return () => unsubscribe();
+  }, [userIn, userData]);
+
+  const addToCart = async (product) => {
+    const cartRef = doc(firestore, "carts", userData.email);
+    await updateDoc(cartRef, {
+      items: arrayUnion(product),
+    });
   };
 
-  const removeFromCart = (product) => {
-    setCart((prev) => prev.filter((item) => item.name !== product.name));
-    setTotalCost((prev) => prev - product.price);
+  const removeFromCart = async (product) => {
+    const cartRef = doc(firestore, "carts", userData.email);
+    await updateDoc(cartRef, {
+      items: arrayRemove(product),
+    });
   };
 
   return (
     <cartContext.Provider
-      value={{
-        cart,
-        setCart,
-        addToCart,
-        removeFromCart,
-        totalCost,
-        setTotalCost,
-      }}
+      value={{ cart, addToCart, removeFromCart, totalCost, cartItemCount }}
     >
       {children}
     </cartContext.Provider>

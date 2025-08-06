@@ -1,46 +1,50 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { cartContext } from "./providers/CartProvider";
 
 const Card = ({ product }) => {
-  const [isInCart, setIsInCart] = useState(false);
-  const { cart, removeFromCart, addToCart } = useContext(cartContext);
+  const { cart, addToCart, removeFromCart } = useContext(cartContext);
+  const isInCart = cart?.some((item) => item.id === product.id);
 
-  useEffect(() => {
-    const isProductInCart = cart.some((item) => item.name === product.name);
-    setIsInCart(isProductInCart);
-  }, [cart]);
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(product);
+  };
 
-  const hanldeBuyButton = () => {
-    if (isInCart) removeFromCart(product);
-    else addToCart(product);
+  const handleRemoveFromCart = (e) => {
+    e.preventDefault();
+    removeFromCart(product);
   };
 
   return (
-    <div
-      className="flex flex-col max-w-[18rem] rounded-lg bg-[#E0E7FF] text-gray-900 shadow-lg
- dark:bg-[#1E293B] dark:text-white hover:scale-105 duration-300"
-    >
-      <div className="relative overflow-hidden bg-cover bg-no-repeat rounded-t-lg">
+    <div className="bg-gray-800 rounded shadow-lg p-4 text-white flex flex-col justify-between h-full">
+      <Link to={`/product/${product.id}`} className="flex flex-col flex-grow">
         <img
-          className=" aspect-[16/9] object-cover rounded-t-lg"
-          src={product.img}
-          alt="product_image"
+          src={product.image}
+          alt={product.title}
+          className="w-full h-48 object-contain mb-4"
         />
-      </div>
+        <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
+        <p className="text-green-400 font-bold mb-4">
+          ${product.price.toFixed(2)}
+        </p>
+      </Link>
 
-      <div className="p-6 flex flex-col items-center gap-3">
-        <h1 className="text-xl font-semibold text-center">{product.name}</h1>
-        <p className="text-lg font-bold text-green-400">${product.price}</p>
-        <p className="text-base text-center">{product.description}</p>
-
+      {!isInCart ? (
         <button
-          className={`flex items-center justify-center w-full rounded-md text-white text-lg py-2 px-4
-${isInCart ? "bg-red-500 hover:bg-red-400" : "bg-blue-600 hover:bg-blue-700"}`}
-          onClick={hanldeBuyButton}
+          onClick={handleAddToCart}
+          className="mt-auto w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
         >
-          {isInCart ? "Remove" : "Buy"}
+          Add to Cart
         </button>
-      </div>
+      ) : (
+        <button
+          onClick={handleRemoveFromCart}
+          className="mt-auto w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
+        >
+          Remove from Cart
+        </button>
+      )}
     </div>
   );
 };

@@ -1,252 +1,100 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "./providers/UserProvider";
 import { cartContext } from "./providers/CartProvider";
+import { signOut } from "firebase/auth";
+import { auth } from "../Firebase-config";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
-  const userContext = useContext(UserContext);
-  const { totalCost } = useContext(cartContext);
-
-  const [isOpen, setIsOpen] = useState(false);
+  const { userData, setUserIn } = useContext(UserContext);
+  const { cartItemCount } = useContext(cartContext);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const signout = () => {
-    userContext.setUserIn(false);
-    localStorage.clear();
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUserIn(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("userIn");
+    toast.success("Logged out successfully!");
     navigate("/login");
   };
 
-  const [userData] = useState(JSON.parse(localStorage.getItem("user")));
-
-  const handlUserClick = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <div className="fixed top-0 z-50 w-screen bg-gray-900">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button
-              type="button"
-              aria-controls="mobile-menu"
-              aria-expanded={isOpen}
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
-              onClick={handlUserClick}
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className={`${isOpen ? "hidden" : "block"} w-6 h-6`}
-              >
-                <path
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className={`${isOpen ? "block" : "hidden"} w-6 h-6`}
-              >
-                <path
-                  d="M6 18L18 6M6 6l12 12"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
+    <nav className="bg-gray-900 text-white fixed top-0 w-full z-50 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        {/* روابط على الشمال */}
+        <div className="flex items-center gap-6">
+          <Link
+            to="/"
+            className={`hover:text-blue-400 ${
+              location.pathname === "/" ? "text-blue-400 font-semibold" : ""
+            }`}
+          >
+            Home
+          </Link>
 
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                <a
-                  href="/"
-                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                            before:bg-teal-600 
+          <Link
+            to="/about"
+            className={`hover:text-blue-400 ${
+              location.pathname === "/about"
+                ? "text-blue-400 font-semibold"
+                : ""
+            }`}
+          >
+            About
+          </Link>
 
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-                >
-                  Home
-                </a>
-                <a
-                  href="/cart"
-                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                          before:bg-teal-600 
+          <Link to="/cart" className="relative hover:text-blue-400">
+            Cart 🛒
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+                {cartItemCount}
+              </span>
+            )}
+          </Link>
+        </div>
 
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-                >
-                  Cart
-                </a>
-                <a
-                  href="/about"
-                  className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                            before:bg-teal-600 
+        {/* شعار على اليمين */}
+        <Link to="/" className="text-white text-xl font-bold">
+          FreshCart
+        </Link>
 
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-                >
-                  About
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute inset-y-0 right-0 flex items-center gap-4 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {totalCost ? (
-              <p className="text-xl font-bold text-green-500">
-                Total Cost :{" "}
-                <span className="text-lg font-normal">{totalCost}$</span>
-              </p>
-            ) : null}
-
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              aria-haspopup="true"
-              className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
-              onClick={handlUserClick}
-            >
-              <span className="sr-only">Open user menu</span>
+        {/* المستخدم و dropdown على اليمين */}
+        <div className="relative ml-6">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="focus:outline-none"
+          >
+            {userData?.photoURL ? (
               <img
-                src={
-                  userData?.photoURL?.trim()
-                    ? userData.photoURL
-                    : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                }
-                alt="User avatar"
+                src={userData.photoURL}
+                alt="User"
                 className="w-8 h-8 rounded-full"
               />
-            </button>
+            ) : (
+              <span className="text-white font-bold">👤</span>
+            )}
+          </button>
 
-            <button
-              className="bg-red-700 rounded-sm text-white text-sm px-3 py-1 hover:bg-red-600 transition duration-150"
-              onClick={signout}
-            >
-              Sign out
-            </button>
-          </div>
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 bg-gray-800 border border-gray-700 rounded-md p-3 z-50 w-44">
+              <p className="text-sm text-gray-300 mb-2">
+                {userData?.displayName || "User"}
+              </p>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left text-red-400 hover:text-red-300"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
-
-      {isOpen && (
-        <div className="sm:hidden" id="mobile-menu">
-          <div className="space-y-1 px-2 pt-2 pb-3">
-            <a
-              href="/"
-              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                            before:bg-teal-600 
-
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-            >
-              Home
-            </a>
-            <a
-              href="/cart"
-              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                            before:bg-teal-600 
-
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-            >
-              Cart
-            </a>
-            <a
-              href="/about"
-              className="relative rounded px-3 py-1.5 cursor-pointer text-sm font-medium text-blue-300
-                            before:bg-teal-600 
-
-                            hover:rounded-b-none 
-                            before:absolute 
-                            before:-bottom-0 
-                            before:-left-0  
-                            before:block 
-                            before:h-[2px] 
-                            before:w-full 
-                            before:origin-bottom-right 
-                            before:scale-x-0 
-                            before:transition 
-                            before:duration-300 
-                            before:ease-in-out 
-                            hover:before:origin-bottom-left 
-                            hover:before:scale-x-100"
-            >
-              About
-            </a>
-          </div>
-        </div>
-      )}
-    </div>
+    </nav>
   );
 };
 

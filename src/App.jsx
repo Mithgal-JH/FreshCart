@@ -1,36 +1,29 @@
+import { useContext, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { UserContext } from "./components/providers/UserProvider";
 import Home from "./pages/Home";
-import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import NavBar from "./components/NavBar";
-import { useContext, useEffect, useState } from "react";
 import About from "./pages/About";
-import { UserContext } from "./components/providers/UserProvider";
-import Footer from "./components/Footer";
+import Cart from "./pages/Cart";
 import Sigin from "./pages/Sigin";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 function App() {
-  //provider
   const { userIn } = useContext(UserContext);
-
-  //************user login****************//
-
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (!userIn) {
-      if (!location.pathname.includes("/signin")) navigate("/login");
+      if (
+        !location.pathname.includes("/signin") &&
+        location.pathname !== "/login"
+      ) {
+        navigate("/login");
+      }
     }
-  }, [userIn]);
-
-  const [userData] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
-  //**************   *************//
+  }, [userIn, location, navigate]);
 
   return (
     <div className="App">
@@ -42,7 +35,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/signin" element={<Sigin />} />
       </Routes>
-      <Footer />
+      <footer />
       <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
