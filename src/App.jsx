@@ -8,6 +8,8 @@ import About from "./pages/About";
 import Cart from "./pages/Cart";
 import Sigin from "./pages/Sigin";
 import { ToastContainer } from "react-toastify";
+import ProductPage from "./pages/ProductPage";
+import Footer from "./components/Footer";
 
 function App() {
   const { userIn } = useContext(UserContext);
@@ -31,11 +33,12 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
         <Route path="/signin" element={<Sigin />} />
       </Routes>
-      <footer />
+      <Footer />
       <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );

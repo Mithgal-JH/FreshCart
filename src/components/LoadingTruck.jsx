@@ -1,5 +1,3 @@
-import React from "react";
-
 const LoadingTruck = () => {
   return (
     <div className="w-fit h-fit flex items-center justify-center">
@@ -106,7 +104,6 @@ const LoadingTruck = () => {
             <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
           </svg>
         </div>
-
 
         <div
           className="w-full h-[1.5px] bg-[#282828] relative bottom-0 self-end rounded-[3px]

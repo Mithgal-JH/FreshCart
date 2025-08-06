@@ -5,7 +5,7 @@ import { cartContext } from "../components/providers/CartProvider";
 import LoadingTruck from "../components/LoadingTruck";
 
 const Cart = () => {
-  const { cart, totalCost } = useContext(cartContext);
+  const { cart, totalCost, clearCart } = useContext(cartContext);
 
   if (cart === null) {
     return (
@@ -30,6 +30,12 @@ const Cart = () => {
               </div>
               <button className="mt-4 sm:mt-0 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
                 Proceed to Checkout
+              </button>
+              <button
+                onClick={clearCart}
+                className="mt-4 sm:mt-0 w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 sm:ml-4"
+              >
+                Empty Cart
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

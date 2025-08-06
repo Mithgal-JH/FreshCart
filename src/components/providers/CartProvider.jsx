@@ -64,9 +64,22 @@ const CartProvider = ({ children }) => {
     });
   };
 
+  const clearCart = async () => {
+    if (!userData?.email) return;
+    const cartRef = doc(firestore, "carts", userData.email);
+    await setDoc(cartRef, { items: [] }); // هان بنمسح كل العناصر من فايربيس
+  };
+
   return (
     <cartContext.Provider
-      value={{ cart, addToCart, removeFromCart, totalCost, cartItemCount }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalCost,
+        cartItemCount,
+      }}
     >
       {children}
     </cartContext.Provider>

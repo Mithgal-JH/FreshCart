@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Card from "../components/Card";
 import { ProductsContext } from "../components/providers/ProductsProvider";
 import LoadingTruck from "../components/LoadingTruck";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { products, loading } = useContext(ProductsContext);
@@ -48,7 +49,8 @@ const Home = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <Card key={product.id} product={product} />
+            
+              <Card key={product.id} product={product} />
           ))
         ) : (
           <div className="sm:col-span-2 lg:col-span-3 xl:col-span-4 text-center">
