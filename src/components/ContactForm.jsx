@@ -8,21 +8,21 @@ const ContactForm = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    // Add a loading state to the message
+  
     setStatusMessage("Sending...");
 
     emailjs
       .sendForm(
-        "service_mkjkjgn", // Replace with your EmailJS Service ID
-        "template_r8s7aas", // Replace with your EmailJS Template ID
+        "service_mkjkjgn", 
+        "template_r8s7aas",
         form.current,
-        "stigiQgfgyV44yIfj" // Replace with your EmailJS Public Key
+        "stigiQgfgyV44yIfj"
       )
       .then(
         (result) => {
           setStatusMessage("✅ Message sent successfully!");
           e.target.reset();
-          setTimeout(() => setStatusMessage(""), 5000); // Clear message after 5 seconds
+          setTimeout(() => setStatusMessage(""), 5000);
         },
         (error) => {
           setStatusMessage(`❌ Failed to send: ${error.text}`);
@@ -36,7 +36,7 @@ const ContactForm = () => {
       onSubmit={sendEmail}
       className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-lg"
     >
-      {/* Name Input */}
+      
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
@@ -63,7 +63,7 @@ const ContactForm = () => {
         />
       </div>
 
-      {/* Email Input */}
+      
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
@@ -90,7 +90,7 @@ const ContactForm = () => {
         />
       </div>
 
-      {/* Message Textarea */}
+     
       <div className="relative">
         <div className="absolute top-3 left-0 pl-3 flex items-center pointer-events-none">
           <svg
