@@ -27,7 +27,6 @@ const NavBar = () => {
     setMobileMenuOpen(false);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (mobileMenuNode.current?.contains(e.target)) {
@@ -114,9 +113,14 @@ const NavBar = () => {
               </button>
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 bg-gray-800 border border-gray-700 rounded-md p-3 z-50 w-44">
-                  <p className="text-sm text-gray-300 mb-2 truncate">
+                  <Link
+                    to="/profile"
+                    className="block text-sm text-gray-300 mb-2 truncate hover:text-white"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
                     {userData?.displayName || "User"}
-                  </p>
+                  </Link>
+
                   <button
                     onClick={handleLogout}
                     className="w-full text-left text-red-400 hover:text-red-300"

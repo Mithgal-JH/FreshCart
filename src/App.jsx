@@ -10,6 +10,7 @@ import Sigin from "./pages/Sigin";
 import { ToastContainer } from "react-toastify";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
+import Profile from "./pages/Profile";
 
 function App() {
   const { userIn } = useContext(UserContext);
@@ -26,14 +27,21 @@ function App() {
       }
     }
   }, [userIn, location, navigate]);
+
   const showNavBar =
     userIn && location.pathname !== "/login" && location.pathname !== "/signin";
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
-    <div className="App">
+    <div className="App ">
       {showNavBar && <NavBar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />

@@ -2,18 +2,66 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
 import { cartContext } from "../components/providers/CartProvider";
-import LoadingTruck from "../components/LoadingTruck";
+import { toast } from "react-toastify";
+import { UserContext } from "../components/providers/UserProvider";
+import { ProductsContext } from "../components/providers/ProductsProvider";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { firestore } from "../Firebase-config";
 
 const Cart = () => {
   const { cart, totalCost, clearCart } = useContext(cartContext);
+  const { setLoading } = useContext(ProductsContext);
+  const { userData } = useContext(UserContext);
+  const handleCompletePurchase = async () => {
+    if (!userData) {
+      return toast.error("You must be logged in to make a purchase.");
+    }
+    setLoading(true);
 
-  if (cart === null) {
-    return (
-      <div className="flex justify-center items-center bg-[#1E2A78] min-h-screen w-screen">
-        <LoadingTruck />
-      </div>
-    );
-  }
+    try {
+      
+      const userDocRef = doc(firestore, "users", userData.uid);
+
+      
+      const userDoc = await getDoc(userDocRef);
+
+      
+      const oldLifetimeCost = userDoc.data()?.lifetimeTotalCost || 0;
+      const newLifetimeCost = oldLifetimeCost + totalCost;
+
+
+      await setDoc(
+        userDocRef,
+        { lifetimeTotalCost: newLifetimeCost },
+        { merge: true }
+      );
+
+  
+      const ordersCollectionRef = collection(firestore, "orders");
+      const orderData = {
+        userId: userData.uid,
+        items: cart,
+        totalCost: totalCost,
+        createdAt: serverTimestamp(),
+        status: "Processing",
+      };
+      await addDoc(ordersCollectionRef, orderData);
+      clearCart();
+      toast.success("Purchase completed successfully!");
+    } catch (error) {
+      console.error("Error completing purchase: ", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-[#1E2A78] min-h-screen w-full pt-28 pb-8 px-4 sm:px-14 md:px-28">
@@ -28,8 +76,11 @@ const Cart = () => {
               <div className="text-white text-2xl font-bold">
                 Total: <span className="text-green-400">${totalCost}</span>
               </div>
-              <button className="mt-4 sm:mt-0 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                Proceed to Checkout
+              <button
+                className="mt-4 sm:mt-0 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
+                onClick={handleCompletePurchase}
+              >
+                Complete Purchase
               </button>
               <button
                 onClick={clearCart}
@@ -46,10 +97,6 @@ const Cart = () => {
           </>
         ) : (
           <div className="text-center bg-gray-900 rounded-lg p-10 max-w-lg mx-auto">
-            <p className="text-2xl text-gray-300 mb-6">Your cart is empty!</p>
-            <p className="text-gray-400 mb-8">
-              Looks like you haven't added anything to your cart yet.
-            </p>
             <Link
               to="/"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
