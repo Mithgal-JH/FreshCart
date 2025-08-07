@@ -67,7 +67,7 @@ const CartProvider = ({ children }) => {
   const clearCart = async () => {
     if (!userData?.email) return;
     const cartRef = doc(firestore, "carts", userData.email);
-    await setDoc(cartRef, { items: [] }); // هان بنمسح كل العناصر من فايربيس
+    await setDoc(cartRef, { items: [] }); 
   };
 
   return (

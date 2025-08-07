@@ -23,7 +23,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Logged in successfully!");
-
+      
       setUserIn(true);
       localStorage.setItem("userIn", true);
       navigate("/");
@@ -87,7 +87,7 @@ const Login = () => {
       setUserIn(true);
       localStorage.setItem("userIn", true);
 
-      toast.success(`Welcome , ${user.displayName}❤️ `);
+      toast.success(`Welcome , ${user.displayName} `);
 
       navigate("/");
     } catch (error) {

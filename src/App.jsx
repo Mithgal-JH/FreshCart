@@ -26,10 +26,11 @@ function App() {
       }
     }
   }, [userIn, location, navigate]);
-
+  const showNavBar =
+    userIn && location.pathname !== "/login" && location.pathname !== "/signin";
   return (
     <div className="App">
-      {userIn && <NavBar />}
+      {showNavBar && <NavBar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />

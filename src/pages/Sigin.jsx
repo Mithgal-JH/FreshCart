@@ -13,21 +13,22 @@ const Sigin = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignin = async () => {
-    // validate input
+
     if (!name || !email || !password || !confirmPassword) {
       toast.error("Please fill in all required fields.");
       return;
     }
+
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters long.");
-      return;
-    }
-    if (!/[a-z]/.test(password)) {
-      toast.error("Password must contain at least one lowercase letter.");
-      return;
-    }
-    if (!/[A-Z]/.test(password)) {
-      toast.error("Password must contain at least one uppercase letter.");
       return;
     }
     if (password !== confirmPassword) {
@@ -36,28 +37,26 @@ const Sigin = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      const userRef = doc(firestore, "users", email);
+      const userRef = doc(firestore, "users", user.email);
       await setDoc(userRef, {
         name,
-        email,
+        email: user.email,
         createdAt: new Date().toISOString(),
       });
 
-      toast.success("Successful");
+      toast.success("Registration successful! Please log in.");
+      navigate("/login");
+
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        toast.error(
-          "This email is already in use. Please try logging in instead."
-        );
+        toast.error("This email is already in use. Please try logging in instead.");
       } else {
         toast.error("Registration failed: " + error.message);
-        return;
       }
     }
-
-    navigate("/login");
   };
 
   return (
@@ -86,7 +85,7 @@ const Sigin = () => {
                   Your name
                 </label>
                 <input
-                  type="name"
+                  type="text"
                   name="name"
                   id="name"
                   className="bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -114,7 +113,6 @@ const Sigin = () => {
                   required
                 />
               </div>
-
               <div>
                 <label
                   htmlFor="password"
@@ -151,14 +149,12 @@ const Sigin = () => {
                   required
                 />
               </div>
-
               <button
                 type="submit"
                 className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Sign Up
               </button>
-              
               <a href="/login" className="text-blue-300 underline">
                 Already have an account?
               </a>
