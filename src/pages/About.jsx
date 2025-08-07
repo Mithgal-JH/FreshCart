@@ -35,6 +35,20 @@ const TechIcon = () => (
   </svg>
 );
 
+const features = [
+  "User Authentication: Secure sign-up and login with Email & Google.",
+  "Dynamic Product Catalog: Real-time products from a Firestore database.",
+  "Advanced Filtering & Search: Live search and filter by category, price, and rating.",
+  "Interactive Shopping Cart: Add, remove, and view items with real-time updates.",
+];
+
+const techStack = [
+  "Frontend: React, React Router, and Tailwind CSS for a responsive design.",
+  "Backend & Database: Firebase Authentication and Firestore.",
+  "Notifications: User-friendly alerts using React Toastify.",
+  "Contact Form: Integrated with EmailJS for seamless communication.",
+];
+
 const About = () => {
   const contactRef = useRef(null);
 
@@ -61,35 +75,14 @@ const About = () => {
             <h2 className="text-2xl font-bold mb-6 border-b-2 border-blue-500 pb-2">
               Key Features
             </h2>
+
             <ul className="space-y-4">
-              <li className="flex items-start">
-                <FeatureIcon />
-                <span>
-                  User Authentication: Secure sign-up and login with Email &
-                  Google.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <FeatureIcon />
-                <span>
-                  Dynamic Product Catalog: Real-time products from a Firestore
-                  database.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <FeatureIcon />
-                <span>
-                  Advanced Filtering & Search: Live search and filter by
-                  category, price, and rating.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <FeatureIcon />
-                <span>
-                  Interactive Shopping Cart: Add, remove, and view items with
-                  real-time updates.
-                </span>
-              </li>
+              {features.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <FeatureIcon />
+                  <span>{feature}</span>
+                </li>
+              ))}
             </ul>
           </section>
 
@@ -98,32 +91,12 @@ const About = () => {
               Tech Stack
             </h2>
             <ul className="space-y-4">
-              <li className="flex items-start">
-                <TechIcon />
-                <span>
-                  Frontend: React, React Router, and Tailwind CSS for a
-                  responsive design.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <TechIcon />
-                <span>
-                  Backend & Database: Firebase Authentication and Firestore.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <TechIcon />
-                <span>
-                  Notifications: User-friendly alerts using React Toastify.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <TechIcon />
-                <span>
-                  Contact Form: Integrated with EmailJS for seamless
-                  communication.
-                </span>
-              </li>
+              {techStack.map((tech, index) => (
+                <li key={index} className="flex items-start">
+                  <TechIcon />
+                  <span>{tech}</span>
+                </li>
+              ))}
             </ul>
           </section>
         </div>

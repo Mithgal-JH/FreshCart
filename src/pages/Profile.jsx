@@ -131,7 +131,7 @@ const Profile = () => {
                       type="text"
                       name="name"
                       id="full_name"
-                      defaultValue={userData.displayName}
+                      placeholder={userData.displayName}
                       onChange={(e) => setName(e.target.value)}
                       className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-white"
                     />
