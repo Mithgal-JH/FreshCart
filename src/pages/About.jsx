@@ -120,7 +120,7 @@ const About = () => {
           id="contact-heading"
           className="text-3xl font-bold mb-4 text-center"
         >
-          📬 Get In Touch
+          📬 Contact us
         </h2>
         <p className="text-gray-400 mb-10 text-center max-w-xl mx-auto">
           Have a question, feedback, or a suggestion? Feel free to reach out!
